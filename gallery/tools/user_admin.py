@@ -18,6 +18,7 @@ Image Gallery User Administration v0.1
     
 Enter a choice: """
 
+
 def connect():
     global connection
     connection = psycopg2.connect(database=dbName,
@@ -90,7 +91,7 @@ def get_all_users():
 if __name__ == '__main__':
     connect()
     choice = input(menu)
-    while choice != 'Q' and choice != 'q':
+    while choice not in ['q', 'Q']:
         if choice in ['l', 'L']:
             get_all_users()
         elif choice in ['a', 'A']:
