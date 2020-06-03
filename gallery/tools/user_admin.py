@@ -1,10 +1,9 @@
-import boto3
 import psycopg2
 
-dbName = "useradmin"
-dbUser = "useradmin"
-dbPassword = "Xb0x3601"
-host = "192.168.1.69"
+dbName = "users"
+dbUser = "postgres"
+dbPassword = "1mag3ga113ry"
+host = "imagegallery.ctvpfstspksz.us-east-2.rds.amazonaws.com"
 port = "5432"
 connection = None
 menu = """
@@ -50,50 +49,47 @@ def add_user_menu():
     fullname = input("Enter full name: ")
     add_user(username, password, fullname)
 
-
-def add_user(username, password, fullname):
-    cur = get_cursor()
-    query = "insert into users (username, password, fullname) values (%s, %s, %s);"
-    # cur.execute(query, (username, password, fullname))
-    execute(query, (username, password, fullname))
-
-
 def edit_user_menu():
     username = input("Enter username: ")
     password = input("Enter password: ")
     fullname = input("Enter full name: ")
     update_user(username, password, fullname)
 
+def delete_user_menu():
+    delete_user(input("Enter username: "))
+    print('Deleted user')
+
+def list_users_menu():
+    result = get_all_users()
+    print("\nusername, password, fullname")
+    for row in result:
+        print(row)
+
+
+
+def add_user(username, password, fullname):
+    cur = get_cursor()
+    query = "insert into users (username, password, fullname) values (%s, %s, %s);"
+    execute(query, (username, password, fullname))
 
 def update_user(username, password, fullname):
     query = "update users set password = %s, fullname = %s where username = %s;"
     execute(query, (password, fullname, username))
 
-
-def delete_user_menu():
-    delete_user(input("Enter username: "))
-    print('Deleted user')
-
-
 def delete_user(username):
     query = "delete from users where username = %s;"
     execute(query, (username,))
 
-
 def get_all_users():
     query = "select * from users;"
-    result = execute(query)
-    print("username, password, fullname")
-    for row in result:
-        print(row)
-
+    return execute(query)
 
 if __name__ == '__main__':
     connect()
     choice = input(menu)
     while choice not in ['q', 'Q']:
         if choice in ['l', 'L']:
-            get_all_users()
+            list_users_menu()
         elif choice in ['a', 'A']:
             add_user_menu()
         elif choice in ['e', 'E']:
