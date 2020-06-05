@@ -2,8 +2,6 @@ import psycopg2
 
 dbName = "users"
 dbUser = "postgres"
-dbPassword = "1mag3ga113ry"
-host = "imagegallery.ctvpfstspksz.us-east-2.rds.amazonaws.com"
 port = "5432"
 connection = None
 menu = """
