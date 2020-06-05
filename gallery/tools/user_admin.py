@@ -1,7 +1,14 @@
 import psycopg2
+def getPassword():
+    f = open("/home/ec2-user/db.config","r")
+    pw = f.readline().strip()
+    f.close()
+    return pw
 
 dbName = "users"
 dbUser = "postgres"
+host = "imagegallery.ctvpfstspksz.us-east-2.rds.amazonaws.com"
+dbPassword = getPassword()
 port = "5432"
 connection = None
 menu = """
@@ -14,7 +21,6 @@ Image Gallery User Administration v0.1
 [Q]uit
     
 Enter a choice: """
-
 
 def connect():
     global connection
