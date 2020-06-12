@@ -1,11 +1,12 @@
 import psycopg2
-from gallery.tools.secrets_client import get_secret
+#from gallery.tools.secrets_client import get_secret
+from secrets_client import get_secret
 import json
 
 dbName = "users"
-dbUser = "postgres"
-host = "imagegallery.ctvpfstspksz.us-east-2.rds.amazonaws.com"
-dbPassword = None
+dbUser = "image_gallery"
+#host = "imagegallery.ctvpfstspksz.us-east-2.rds.amazonaws.com"
+host = "image-gallery-priv.ctvpfstspksz.us-east-2.rds.amazonaws.com"
 port = "5432"
 connection = None
 menu = """
@@ -30,11 +31,11 @@ def get_password():
     return secret_dict['password']
 
 
-def connect():
+def connect(password):
     global connection
     connection = psycopg2.connect(database=dbName,
                                   user=dbUser,
-                                  password=dbPassword,
+                                  password=password,
                                   host=host,
                                   port=port)
     connection.set_session(autocommit=True)
@@ -98,9 +99,7 @@ def get_all_users():
 
 
 def main():
-    dbPassword = get_password()
-
-    connect()
+    connect(get_password())
     choice = input(menu)
     while choice not in ['q', 'Q']:
         if choice in ['l', 'L']:
