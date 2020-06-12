@@ -97,7 +97,7 @@ def get_all_users():
     return execute(query)
 
 
-if __name__ == '__main__':
+def main():
     dbPassword = get_password()
 
     connect()
@@ -115,3 +115,6 @@ if __name__ == '__main__':
             print('Invalid option.')
         choice = input(menu)
     print("Okay, Bye.")
+
+if __name__ == '__main__':
+    main()
