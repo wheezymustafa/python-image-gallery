@@ -1,2 +1,3 @@
-boto3
+boto3~=1.14.1
 psycopg2
+botocore~=1.17.1

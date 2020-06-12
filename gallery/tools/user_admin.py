@@ -1,14 +1,11 @@
 import psycopg2
-def getPassword():
-    f = open("/home/ec2-user/db.config","r")
-    pw = f.readline().strip()
-    f.close()
-    return pw
+from gallery.tools.secrets_client import get_secret
+import json
 
 dbName = "users"
 dbUser = "postgres"
 host = "imagegallery.ctvpfstspksz.us-east-2.rds.amazonaws.com"
-dbPassword = getPassword()
+dbPassword = None
 port = "5432"
 connection = None
 menu = """
@@ -21,6 +18,17 @@ Image Gallery User Administration v0.1
 [Q]uit
     
 Enter a choice: """
+
+
+def get_image_gallery_secret():
+    return get_secret()
+
+
+def get_password():
+    secret = get_image_gallery_secret()
+    secret_dict = json.loads(secret)
+    return secret_dict['password']
+
 
 def connect():
     global connection
@@ -88,7 +96,10 @@ def get_all_users():
     query = "select * from users;"
     return execute(query)
 
+
 if __name__ == '__main__':
+    dbPassword = get_password()
+
     connect()
     choice = input(menu)
     while choice not in ['q', 'Q']:
