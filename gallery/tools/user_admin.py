@@ -1,5 +1,4 @@
 import psycopg2
-#from gallery.tools.secrets_client import get_secret
 from secrets_client import get_secret
 import json
 
@@ -31,7 +30,8 @@ def get_password():
     return secret_dict['password']
 
 
-def connect(password):
+def connect():
+    password = get_password()
     global connection
     connection = psycopg2.connect(database=dbName,
                                   user=dbUser,
@@ -99,7 +99,7 @@ def get_all_users():
 
 
 def main():
-    connect(get_password())
+    connect()
     choice = input(menu)
     while choice not in ['q', 'Q']:
         if choice in ['l', 'L']:
