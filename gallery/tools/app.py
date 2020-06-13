@@ -18,11 +18,27 @@ def edit_user_form(username):
 
 @app.route('/admin/editUser', methods=['POST'])
 def edit_user():
-    print(request)
     username = request.form['username']
     password = request.form['password']
     fullname = request.form['fullname']
     admin_service.update_user(username, password, fullname)
     return redirect('/admin')
 
-
+@app.route('/admin/addUser', methods=['GET','POST'])
+def add_user():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        fullname = request.form['fullname']
+        admin_service.add_user(username, password, fullname)
+        return redirect('/admin')
+    else:
+        return render_template('addUser.html')
+    
+@app.route('/admin/deleteUser/<username>', methods=['GET','POST'])
+def delete_user(username):
+    if request.method == 'POST':
+        admin_service.delete_user(username)
+        return redirect('/admin')
+    else:
+        return render_template('deleteUser.html', username=username)
