@@ -25,12 +25,15 @@ def get_image_gallery_secret():
 
 
 def get_password():
+    print('Retrieving secret..')
     secret = get_image_gallery_secret()
     secret_dict = json.loads(secret)
+    print('Retrieved secret..')
     return secret_dict['password']
 
 
 def connect():
+    print('Connecting to {host}..'.format(host=host))
     password = get_password()
     global connection
     connection = psycopg2.connect(database=dbName,
@@ -39,6 +42,7 @@ def connect():
                                   host=host,
                                   port=port)
     connection.set_session(autocommit=True)
+    print('Connected to {host}'.format(host=host))
 
 
 def get_cursor():
