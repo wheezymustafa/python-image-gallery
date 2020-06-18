@@ -1,5 +1,5 @@
 import psycopg2
-from secrets_client import get_secret
+from .secrets_client import get_secret
 import json
 
 dbName = "users"

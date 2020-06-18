@@ -1,4 +1,4 @@
-import user_admin
+from . import user_admin
 
 user_admin.connect()
 

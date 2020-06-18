@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+if [ $# != "1" ]; then
+  echo "Usage: activate <version-number>"
+  exit 1
+fi
+
+#Remove old softlink
+rm -f ec2-scripts/ec2-prod-latest.sh
+
+#Update softlink
+cd ec2-scripts
+ln -s ec2-prod-$1.sh ec2-prod-latest.sh
+cd ..
+./deploy-startup $1
+./deploy-startup latest

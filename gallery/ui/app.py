@@ -1,4 +1,4 @@
-import admin_service
+from . import admin_service
 from flask import Flask
 from flask import render_template, redirect, request
 app = Flask(__name__)
