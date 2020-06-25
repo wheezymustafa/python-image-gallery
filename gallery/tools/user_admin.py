@@ -38,7 +38,7 @@ def get_user():
     print('Retrieving user..')
     secret_dict = get_image_gallery_secret()
     print('Retrieved user..')
-    return secret_dict['user']
+    return secret_dict['username']
 
 def connect():
     host = get_host()
