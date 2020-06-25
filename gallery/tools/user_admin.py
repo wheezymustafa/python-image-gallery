@@ -47,7 +47,7 @@ def connect():
     password = get_password()
     global connection
     connection = psycopg2.connect(database=dbName,
-                                  user=dbUser,
+                                  user=user,
                                   password=password,
                                   host=host,
                                   port=port)
