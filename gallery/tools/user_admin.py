@@ -3,9 +3,6 @@ from secrets_client import get_secret
 import json
 
 dbName = "users"
-dbUser = "image_gallery"
-#host = "imagegallery.ctvpfstspksz.us-east-2.rds.amazonaws.com"
-host = "image-gallery-priv.ctvpfstspksz.us-east-2.rds.amazonaws.com"
 port = "5432"
 connection = None
 menu = """
@@ -21,20 +18,33 @@ Enter a choice: """
 
 
 def get_image_gallery_secret():
-    return get_secret()
-
+    secret = get_secret()
+    secret_dict = json.loads(secret)
+    return secret_dict
 
 def get_password():
-    print('Retrieving secret..')
-    secret = get_image_gallery_secret()
-    secret_dict = json.loads(secret)
-    print('Retrieved secret..')
+    print('Retrieving password..')
+    secret_dict = get_image_gallery_secret()
+    print('Retrieved password..')
     return secret_dict['password']
 
+def get_host():
+    print('Retrieving host..')
+    secret_dict = get_image_gallery_secret()
+    print('Retrieved host..')
+    return secret_dict['host']
+
+def get_user():
+    print('Retrieving user..')
+    secret_dict = get_image_gallery_secret()
+    print('Retrieved user..')
+    return secret_dict['user']
 
 def connect():
     print('Connecting to {host}..'.format(host=host))
+    user = get_user()
     password = get_password()
+    host = get_host()
     global connection
     connection = psycopg2.connect(database=dbName,
                                   user=dbUser,
