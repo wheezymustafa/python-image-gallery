@@ -41,10 +41,10 @@ def get_user():
     return secret_dict['user']
 
 def connect():
+    host = get_host()
     print('Connecting to {host}..'.format(host=host))
     user = get_user()
     password = get_password()
-    host = get_host()
     global connection
     connection = psycopg2.connect(database=dbName,
                                   user=dbUser,
