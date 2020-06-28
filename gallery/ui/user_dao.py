@@ -5,10 +5,10 @@ import json
 dbName = "users"
 port = "5432"
 connection = None
-
+image_gallery_secret_name = "sec-imagegallery-pw"
 
 def get_image_gallery_secret():
-    secret = get_secret()
+    secret = get_secret(image_gallery_secret_name)
     secret_dict = json.loads(secret)
     return secret_dict
 
@@ -75,6 +75,10 @@ def delete_user(username):
     query = "delete from users where username = %s;"
     execute(query, (username,))
 
+
+def get_user_by_username(username):
+    query = "select * from users where username = %s;"
+    return execute(query, (username,))
     
 def get_all_users():
     query = "select * from users;"

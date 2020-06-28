@@ -6,10 +6,13 @@ import boto3
 import base64
 from botocore.exceptions import ClientError
 
+DEFAULT_REGION = "us-east-2"
 
-def get_secret():
-    secret_name = "sec-imagegallery-pw"
-    region_name = "us-east-2"
+
+def get_secret(secret_name):
+    region_name = DEFAULT_REGION
+    secret = None
+    #secret_name = "sec-imagegallery-pw"
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
@@ -23,9 +26,7 @@ def get_secret():
     # We rethrow the exception by default.
 
     try:
-        get_secret_value_response = client.get_secret_value(
-            SecretId=secret_name
-        )
+        get_secret_value_response = client.get_secret_value(SecretId=secret_name)
     except ClientError as e:
         if e.response['Error']['Code'] == 'DecryptionFailureException':
             # Secrets Manager can't decrypt the protected secret text using the provided KMS key.
@@ -53,9 +54,7 @@ def get_secret():
         if 'SecretString' in get_secret_value_response:
             secret = get_secret_value_response['SecretString']
         else:
-            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+            print('made it to else')
+            secret = base64.b64decode(get_secret_value_response['SecretBinary'])
 
-    if secret is None:
-        return decoded_binary_secret
-    else:
-        return secret
+    return secret        

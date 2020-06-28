@@ -2,6 +2,24 @@ from . import user_dao
 
 user_dao.connect()
 
+def is_valid_user(username, password):
+    user = get_user_by_username(username)
+    if not user or password != user['password']:
+        return False
+    else:
+        return True
+
+
+def get_user_by_username(username):
+    res = user_dao.get_user_by_username(username)
+    if not res:
+        return None
+    else:
+        user = res.fetchone()
+        userObj = {'username': user[0], 'password': user[1], 'fullname': user[2]}
+        return userObj
+
+
 def get_users():
     users = []
     res = user_dao.get_all_users()
