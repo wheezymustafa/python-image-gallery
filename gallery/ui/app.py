@@ -2,7 +2,7 @@ from . import user_service
 from . import secrets_client
 import json
 from flask import Flask
-from flask import render_template, redirect, request, session
+from flask import render_template, redirect, request, session, flash
 app = Flask(__name__)
 
 flask_secret_name = "sec-ig-app-secret"
@@ -20,18 +20,22 @@ def hello_world():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         if user_service.is_valid_user(username, password):
             session['username'] = username
-        return render_template('index.html')
+            return redirect('/index')
+        else:
+            error = 'Login failed'
+            return render_template('login.html', error=error)
     else:
-        return render_template('login.html')
+        return render_template('login.html', error=error)
 
-@app.route('/index.html')
+@app.route('/index')
 def index():
-    return session['username']
+    return render_template('index.html', username=session['username'])
 
 @app.route('/admin')
 def admin_page():

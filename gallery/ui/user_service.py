@@ -12,10 +12,10 @@ def is_valid_user(username, password):
 
 def get_user_by_username(username):
     res = user_dao.get_user_by_username(username)
-    if not res:
+    user = res.fetchone()
+    if not user:
         return None
     else:
-        user = res.fetchone()
         userObj = {'username': user[0], 'password': user[1], 'fullname': user[2]}
         return userObj
 
