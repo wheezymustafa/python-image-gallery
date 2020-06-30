@@ -9,6 +9,8 @@ def is_valid_user(username, password):
     else:
         return True
 
+def is_admin(username):
+    return True if username == 'dam0045' else False
 
 def get_user_by_username(username):
     res = user_dao.get_user_by_username(username)

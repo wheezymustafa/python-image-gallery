@@ -83,3 +83,11 @@ def get_user_by_username(username):
 def get_all_users():
     query = "select * from users;"
     return execute(query)
+
+def upload_image(username, imageid):
+    query = "insert into userimages(username, imageid) values (%s, %s);"
+    execute(query, (username, imageid))
+
+def get_images_by_user(username):
+    query = "select imageid from userimages where username = %s;"
+    execute(query, (username,))
