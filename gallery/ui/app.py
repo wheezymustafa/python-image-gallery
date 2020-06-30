@@ -49,7 +49,7 @@ def login():
 
 @app.route('/')
 def index():
-    if not session['username']:
+    if not session or not session['username']:
         return redirect('/login')
     return render_template('index.html', session=session)
 
