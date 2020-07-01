@@ -65,6 +65,8 @@ def login():
     else:
         return render_template('login.html', error=error)
 
+# Image Gallery User Routes
+
 @app.route('/')
 def index():
     if not session or not session['username']:
@@ -83,6 +85,13 @@ def view():
 @requires_logged_in
 def view_image(imageid):
     return render_template('view-image.html', image_path='../{}'.format(default_image_path), imageid=imageid);
+
+@app.route('/delete/<imageid>')
+@requires_logged_in
+def delete_image(imageid):
+    image_service.delete_image(imageid)
+    user_service.delete_image(session['username'], imageid)
+    return redirect('/view')
 
 @app.route('/upload', methods=['GET', 'POST'])
 @requires_logged_in

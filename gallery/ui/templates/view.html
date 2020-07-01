@@ -11,9 +11,13 @@
 
 	<body>
 		<h1>{{ username }}'s Images</h1>
+		{% if not images %}
+		<a href="/upload">Add some images!</a>
+		{% endif %}
 		<ul style="list-style-type:none">
 		{% for imageid in images %}
 		<li><a href="/view/{{ imageid }}"><img src="{{ image_path }}/{{ imageid }}" height="250" width="250"/></a></li>
+		<a href="/delete/{{ imageid }}">Delete</a>
 		{% endfor %}
 		</ul>
 		<a href="/">Back</a>

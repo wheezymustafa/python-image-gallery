@@ -45,3 +45,11 @@ def upload_image(imageid, image):
     except:
         return False
     return True
+
+
+def delete_image(imageid):
+    try:
+        resp = client.delete_object(Bucket=IMAGE_BUCKET_NAME, Key=imageid)
+        return True if resp.DeleteMarker else False
+    except:
+        return False

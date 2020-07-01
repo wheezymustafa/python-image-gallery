@@ -91,3 +91,7 @@ def put_user_image(username, imageid):
 def get_images_by_user(username):
     query = "select imageid from userimages where username = %s;"
     return execute(query, (username,))
+
+def delete_image(username, imageid):
+    query = "delete from userimages where username = %s and imageid = %s;"
+    execute(query, (username, imageid))

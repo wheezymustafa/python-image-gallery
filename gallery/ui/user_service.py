@@ -47,3 +47,6 @@ def get_images_by_user(username):
 
 def put_user_image(username, imageid):
     user_dao.put_user_image(username, imageid)
+
+def delete_image(username, imageid):
+    user_dao.delete_image(username, imageid)
