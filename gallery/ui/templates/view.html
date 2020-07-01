@@ -1,0 +1,21 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		  <meta charset="utf-8">
+
+		    <title>Images</title>
+			  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+	</head>
+
+	<body>
+		<h1>{{ username }}'s Images</h1>
+		<ul style="list-style-type:none">
+		{% for imageid in images %}
+		<li><a href="/view/{{ imageid }}"><img src="{{ image_path }}/{{ imageid }}" height="250" width="250"/></a></li>
+		{% endfor %}
+		</ul>
+		<a href="/">Back</a>
+	</body>
+</html>

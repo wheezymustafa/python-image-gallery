@@ -38,3 +38,12 @@ def update_user(username, password, fullname):
 def delete_user(username):
     user_dao.delete_user(username)
    
+def get_images_by_user(username):
+    imageids = []
+    res = user_dao.get_images_by_user(username)
+    for imageid in res:
+        imageids.append(imageid[0])
+    return imageids
+
+def put_user_image(username, imageid):
+    user_dao.put_user_image(username, imageid)

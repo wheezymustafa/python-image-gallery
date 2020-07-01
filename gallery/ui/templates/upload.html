@@ -1,0 +1,26 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		  <meta charset="utf-8">
+
+		    <title>Upload an Image</title>
+			  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+	</head>
+
+	<body>
+		  <script src="js/scripts.js"></script>
+		  <form action="/upload" method="POST" enctype="multipart/form-data">
+			  <h2>Upload</h2>
+			  <p>Supported types: png, jpg/jpeg, bmp, gif</p>
+			  <label for="file">Image File: </label>
+			  <input type="file" name="file"><br/>
+			  <br/>
+			  <button type="submit">Upload</button>
+		  </form>
+		  {% if error %}
+		  	<p><strong> Error: {{ error }}</p>
+		  {% endif %}
+	</body>
+</html>

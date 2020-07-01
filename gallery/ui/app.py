@@ -2,12 +2,16 @@ from . import user_service
 from . import image_service
 from . import secrets_client
 import json
+import pathlib
+import uuid
 from functools import wraps
 from flask import Flask
 from flask import render_template, redirect, request, session, flash
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp'}
 app = Flask(__name__)
 
 flask_secret_name = "sec-ig-app-secret"
+default_image_path = 'static/images'
 
 def get_app_secret():
     secret = secrets_client.get_secret(flask_secret_name)
@@ -19,12 +23,26 @@ app.secret_key = get_app_secret()
 def requires_admin(func):
     @wraps(func)
     def decorated(**kwargs):
-        print(session)
         if session['username'] and user_service.is_admin(session['username']):
             return func(**kwargs)
         else:
             return redirect('/login')
     return decorated
+
+def requires_logged_in(func):
+    @wraps(func)
+    def decorated(**kwargs):
+        if not session or not session['username']:
+            return redirect('/login')
+        else:
+            return func(**kwargs)
+    return decorated
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def generate_uuid():
+    return str(uuid.uuid1())
 
 @app.route('/logout')
 def logout():
@@ -52,6 +70,38 @@ def index():
     if not session or not session['username']:
         return redirect('/login')
     return render_template('index.html', session=session)
+
+@app.route('/view')
+@requires_logged_in
+def view():
+    images = user_service.get_images_by_user(session['username'])
+    for imageid in images:
+        image_service.get_image(imageid)
+    return render_template('view.html', image_path=default_image_path, images=images, username=session['username']);
+
+@app.route('/view/<imageid>')
+@requires_logged_in
+def view_image(imageid):
+    return render_template('view-image.html', image_path='../{}'.format(default_image_path), imageid=imageid);
+
+@app.route('/upload', methods=['GET', 'POST'])
+@requires_logged_in
+def upload():
+    error = None
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file found')
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            uuid = generate_uuid()
+            image_service.upload_image(uuid, file)
+            user_service.put_user_image(session['username'], uuid)
+        return redirect('/view')
+    else:
+        return render_template('upload.html', error=error)
+
+
+# Admin Routes
 
 @app.route('/admin')
 @requires_admin
@@ -96,5 +146,6 @@ def delete_user(username):
 
 @app.route('/testobject')
 def testobject():
-    image = image_service.get_image('asg config.png')
-    return render_template('test.html', image=image);
+    images = user_service.get_images_by_user('dam0045')
+    print(images)
+    return render_template('test.html', image_path=default_image_path, images=images);
