@@ -1,9 +1,9 @@
 #!/usr/bin/bash
 export PGPASSWORD=`cat /secrets/postgres_pwd`
-IG_PW=`cat /secrets/ig_pwd`
+#IG_PW=`cat /secrets/ig_pwd`
 
 #Create image gallery user
-psql -h $PG_HOST -U postgres -p $PG_PORT -d $IG_DATABASE -c "create user image_gallery with password '"$IG_PW"';"
+#psql -h $PG_HOST -U postgres -p $PG_PORT -d $IG_DATABASE -c "create user image_gallery with password '"$IG_PW"';"
 
 #Run DB setup with image gallery user
 psql -h $PG_HOST -U image_gallery -d $IG_DATABASE -p $PG_PORT < db/setup.sql
