@@ -9,6 +9,7 @@ from flask import Flask
 from flask import render_template, redirect, request, session, flash
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp'}
 app = Flask(__name__)
+print('root path: ' + app.root_path)
 
 flask_secret_name = "sec-ig-app-secret"
 default_image_path = 'static/images'
