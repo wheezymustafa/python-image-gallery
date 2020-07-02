@@ -1,9 +1,10 @@
 import psycopg2
 from .secrets_client import get_secret
 import json
+import os
 
 dbName = "users"
-port = "5432"
+port = 5432
 connection = None
 image_gallery_secret_name = "sec-imagegallery-pw"
 
@@ -13,28 +14,51 @@ def get_image_gallery_secret():
     return secret_dict
 
 def get_password():
-    print('Retrieving password..')
-    secret_dict = get_image_gallery_secret()
-    print('Retrieved password..')
-    return secret_dict['password']
+    if os.environ.get('IG_PASSWD'):
+        return os.environ.get('IG_PASSWD')
+    else:
+        print('Retrieving password..')
+        secret_dict = get_image_gallery_secret()
+        print('Retrieved password..')
+        return secret_dict['password']
 
 def get_host():
-    print('Retrieving host..')
-    secret_dict = get_image_gallery_secret()
-    print('Retrieved host..')
-    return secret_dict['host']
+    if os.environ.get('PG_HOST'):
+        return os.environ.get('PG_HOST')
+    else:
+        print('Retrieving host..')
+        secret_dict = get_image_gallery_secret()
+        print('Retrieved host..')
+        return secret_dict['host']
 
 def get_user():
-    print('Retrieving user..')
-    secret_dict = get_image_gallery_secret()
-    print('Retrieved user..')
-    return secret_dict['username']
+    if os.environ.get('IG_USER'):
+        return os.environ.get('IG_USER')
+    else:
+        print('Retrieving user..')
+        secret_dict = get_image_gallery_secret()
+        print('Retrieved user..')
+        return secret_dict['username']
+
+def get_db_name():
+    if os.environ.get('IG_DATABASE'):
+        return os.environ.get('IG_DATABASE')
+    else:
+        return dbName
+
+def get_port():
+    if os.environ.get('PG_PORT'):
+        return os.environ.get('PG_PORT')
+    else:
+        return port
 
 def connect():
     host = get_host()
     print('Connecting to {host}..'.format(host=host))
     user = get_user()
     password = get_password()
+    port = get_port()
+    dbName = get_db_name()
     global connection
     connection = psycopg2.connect(database=dbName,
                                   user=user,

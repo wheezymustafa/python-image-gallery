@@ -19,18 +19,14 @@ def get_image(imageid):
             return False
 
 def save_image(imageid, image):
-    try:
-        if not os.path.exists(IMAGE_PATH):
-            os.makedirs(IMAGE_PATH)
+    if not os.path.exists(IMAGE_PATH):
+        print('Creating {}'.format(IMAGE_PATH))
+        os.makedirs(IMAGE_PATH)
 
-        file_path = '{}/{}'.format(IMAGE_PATH, imageid)
-        file = open(file_path, 'wb')
-        file.write(image)
-        file.close()
-    except:
-        return False
-
-    return True
+    file_path = '{}/{}'.format(IMAGE_PATH, imageid)
+    file = open(file_path, 'wb')
+    file.write(image)
+    file.close()
 
 def image_is_available(imageid):
     return True if os.path.exists(IMAGE_PATH) and os.path.exists(get_formatted_file_path(imageid)) else False
