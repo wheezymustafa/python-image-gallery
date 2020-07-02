@@ -20,6 +20,7 @@ def get_image(imageid):
 
 def save_image(imageid, image):
     if not os.path.exists(IMAGE_PATH):
+        print('Creating {}'.format(IMAGE_PATH))
         os.makedirs(IMAGE_PATH)
 
     file_path = '{}/{}'.format(IMAGE_PATH, imageid)

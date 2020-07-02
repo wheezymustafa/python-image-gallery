@@ -46,6 +46,7 @@ def get_images_by_user(username):
     return imageids
 
 def put_user_image(username, imageid):
+    print('Inserting record: {}, {}'.format(username, imageid))
     user_dao.put_user_image(username, imageid)
 
 def delete_image(username, imageid):
