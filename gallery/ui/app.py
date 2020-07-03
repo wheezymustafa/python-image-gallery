@@ -27,7 +27,6 @@ dictConfig({
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp'}
 app = Flask(__name__)
-print('root path: ' + app.root_path)
 
 app.logger.info(app.root_path)
 
