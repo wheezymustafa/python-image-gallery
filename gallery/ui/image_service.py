@@ -7,7 +7,7 @@ IMAGE_PATH='static/images'
 
 def get_image_path():
     if os.environ['IG_ROOT_PATH']:
-        return '{}/{}'.format(IG_ROOT_PATH, IMAGE_PATH)
+        return '{}/{}'.format(os.environ['IG_ROOT_PATH'], IMAGE_PATH)
     else:
         return IMAGE_PATH
 
