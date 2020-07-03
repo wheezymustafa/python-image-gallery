@@ -1,34 +1,18 @@
 from . import user_service
 from . import image_service
 from . import secrets_client
+import os
 import json
 import pathlib
 import uuid
 from functools import wraps
 from flask import Flask
 from flask import render_template, redirect, request, session, flash
-from logging.config import dictConfig
-
-dictConfig({
-    'version': 1,
-    'formatters': {'default': {
-        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
-    }},
-    'handlers': {'wsgi': {
-        'class': 'logging.StreamHandler',
-        'stream': 'ext://flask.logging.wsgi_errors_stream',
-        'formatter': 'default'
-    }},
-    'root': {
-        'level': 'INFO',
-        'handlers': ['wsgi']
-    }
-})
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp'}
 app = Flask(__name__)
 
-app.logger.info(app.root_path)
+os.environ['IG_ROOT_PATH'] = app.root_path
 
 flask_secret_name = "sec-ig-app-secret"
 default_image_path = 'static/images'
