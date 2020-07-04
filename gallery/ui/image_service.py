@@ -5,6 +5,12 @@ client = boto3.client('s3')
 IMAGE_BUCKET_NAME='edu.au.cc.dam0045.image-gallery'
 IMAGE_PATH='static/images'
 
+def get_bucket_name():
+    if os.environ['S3_IMAGE_BUCKET']:
+        return os.environ['S3_IMAGE_BUCKET']
+    else:
+        return IMAGE_BUCKET_NAME
+
 def get_image_path():
     if os.environ['IG_ROOT_PATH']:
         return '{}/{}'.format(os.environ['IG_ROOT_PATH'], IMAGE_PATH)
@@ -43,7 +49,7 @@ def get_formatted_file_path(imageid):
 
 def upload_image(imageid, image):
     try:
-        client.put_object(Bucket=IMAGE_BUCKET_NAME, Key=imageid, Body=image)
+        client.put_object(Bucket=get_bucket_name(), Key=imageid, Body=image)
     except:
         return False
     return True
@@ -51,7 +57,7 @@ def upload_image(imageid, image):
 
 def delete_image(imageid):
     try:
-        resp = client.delete_object(Bucket=IMAGE_BUCKET_NAME, Key=imageid)
+        resp = client.delete_object(Bucket=get_bucket_name(), Key=imageid)
         return True if resp.DeleteMarker else False
     except:
         return False
