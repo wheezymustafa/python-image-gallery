@@ -20,7 +20,7 @@ def get_image_path():
 def get_image(imageid):
     if image_is_available(imageid):
         return get_formatted_file_path(imageid) 
-    response = client.get_object(Bucket=IMAGE_BUCKET_NAME, Key=imageid)
+    response = client.get_object(Bucket=get_bucket_name(), Key=imageid)
 
     if response is None:
         return None

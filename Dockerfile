@@ -1,3 +1,4 @@
+#https://hub.docker.com/r/wheezymustafa/image_gallery
 FROM alpine:3.7
 RUN apk add python3 python3-dev postgresql-dev build-base git libc-dev linux-headers pcre pcre-dev bash postgresql-client && \
     mkdir /app && \
