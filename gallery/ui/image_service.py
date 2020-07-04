@@ -48,11 +48,7 @@ def get_formatted_file_path(imageid):
 
 
 def upload_image(imageid, image):
-    try:
-        client.put_object(Bucket=get_bucket_name(), Key=imageid, Body=image)
-    except:
-        return False
-    return True
+    client.put_object(Bucket=get_bucket_name(), Key=imageid, Body=image)
 
 
 def delete_image(imageid):
