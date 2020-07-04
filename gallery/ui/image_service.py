@@ -6,14 +6,14 @@ IMAGE_BUCKET_NAME='edu.au.cc.dam0045.image-gallery'
 IMAGE_PATH='static/images'
 
 def get_bucket_name():
-    if os.environ['S3_IMAGE_BUCKET']:
-        return os.environ['S3_IMAGE_BUCKET']
+    if os.environ.get('S3_IMAGE_BUCKET'):
+        return os.environ.get('S3_IMAGE_BUCKET') 
     else:
         return IMAGE_BUCKET_NAME
 
 def get_image_path():
-    if os.environ['IG_ROOT_PATH']:
-        return '{}/{}'.format(os.environ['IG_ROOT_PATH'], IMAGE_PATH)
+    if os.environ.get('IG_ROOT_PATH'):
+        return '{}/{}'.format(os.environ.get('IG_ROOT_PATH'), IMAGE_PATH)
     else:
         return IMAGE_PATH
 
