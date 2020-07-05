@@ -18,9 +18,12 @@ flask_secret_name = "sec-ig-app-secret"
 default_image_path = 'static/images'
 
 def get_app_secret():
-    secret = secrets_client.get_secret(flask_secret_name)
-    secret_dict = json.loads(secret)
-    return secret_dict['secret']
+    if os.environ.get('IG_FLASK_SECRET'):
+        return os.environ.get('IG_FLASK_SECRET')
+    else:
+        secret = secrets_client.get_secret(flask_secret_name)
+        secret_dict = json.loads(secret)
+        return secret_dict['secret']
 
 app.secret_key = get_app_secret()
 
