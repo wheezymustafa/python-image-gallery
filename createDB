@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 if [ -f "$IG_PASSWD_FILE" ]; then
-  $IG_PASSWD=`cat $IG_PASSWD_FILE`
+  IG_PASSWD=`cat $IG_PASSWD_FILE`
 fi
 
 export PGPASSWORD=$IG_PASSWD
