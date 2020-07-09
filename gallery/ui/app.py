@@ -20,7 +20,7 @@ default_image_path = 'static/images'
 def get_app_secret():
     if os.environ.get('IG_FLASK_SECRET_FILE') and os.path.exists(os.environ.get('IG_FLASK_SECRET_FILE')):
         f = open(os.environ.get('IG_FLASK_SECRET_FILE'), 'r')
-        return f.read()
+        return f.readline().strip()
     elif os.environ.get('IG_FLASK_SECRET'):
         return os.environ.get('IG_FLASK_SECRET')
     else:
