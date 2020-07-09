@@ -1,0 +1,52 @@
+---
+version: "3.8"
+
+services:
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_USER: image_gallery
+      POSTGRES_PASSWORD_FILE: /run/secrets/ig_password
+      POSTGRES_DB: imagegallery
+    deploy:
+      placement:
+        constraints:
+          - "node.labels.database==yes"
+    volumes:
+      - "/mnt/efs/postgres-data:/var/lib/postgresql/data"
+    secrets:
+      - ig_password
+
+  image_gallery:
+    image: wheezymustafa/image_gallery
+    user: "image_gallery"
+    deploy:
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+    environment:
+      PG_HOST: "database"
+      PG_PORT: 5432
+      IG_USER: "image_gallery"
+      IG_PASSWD_FILE: /run/secrets/ig_password
+      IG_DATABASE: imagegallery
+      IG_FLASK_SECRET_FILE: /run/secrets/flask_session_key
+      AWS_ACCESS_KEY_ID: "AKIAJWYUUIWZDYHOURMA"
+      AWS_SECRET_ACCESS_KEY: "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"
+      AWS_DEFAULT_REGION: "us-east-2"
+      S3_IMAGE_BUCKET: "edu.au.cc.dam0045.image-gallery"
+    ports:
+      - "80:5555"
+    depends_on:
+      - database
+    secrets:
+      - ig_password
+      - flask_session_key
+
+secrets:
+  ig_password:
+    external: true
+  flask_session_key:
+    external: true
+
