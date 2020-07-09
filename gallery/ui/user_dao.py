@@ -14,7 +14,10 @@ def get_image_gallery_secret():
     return secret_dict
 
 def get_password():
-    if os.environ.get('IG_PASSWD'):
+    if os.environ.get('IG_PASSWD_FILE') and os.path.exists(os.environ.get('IG_PASSWD_FILE')):
+        f = open(os.environ.get('IG_PASSWD_FILE'), 'r')
+        return f.read()
+    elif os.environ.get('IG_PASSWD'):
         return os.environ.get('IG_PASSWD')
     else:
         print('Retrieving password..')
