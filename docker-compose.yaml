@@ -32,8 +32,6 @@ services:
       IG_PASSWD_FILE: /run/secrets/ig_password
       IG_DATABASE: imagegallery
       IG_FLASK_SECRET_FILE: /run/secrets/flask_session_key
-      AWS_ACCESS_KEY_ID: "AKIAJWYUUIWZDYHOURMA"
-      AWS_SECRET_ACCESS_KEY: "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"
       AWS_DEFAULT_REGION: "us-east-2"
       S3_IMAGE_BUCKET: "edu.au.cc.dam0045.image-gallery"
     ports:
